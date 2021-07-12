@@ -4,10 +4,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      привет
-
-        ясвяс
+    <div className="App">ПРо,ный коммит
     </div>
   );
 }
