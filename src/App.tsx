@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import {taskType, TodoList} from "./TodoList";
-import {AccordionTitle} from "./AccordionTitle";
-import {AccordionBody} from "./AccordionBody";
+import {taskType} from "./TodoList";
+import {Rating} from "./components/Rating";
+import {Accordion} from "./components/Accordion";
 
 
 function App(){
@@ -19,15 +19,23 @@ let tasks1:Array<taskType>  = [
     ];
 return (
     <div className="App">
-        <TodoList titles={"What to learn 1"} title={tasks1}/>
-        <TodoList  titles={"What to learn 2"} title={tasks2}/>
-        <AccordionTitle/>
-        <AccordionBody/>
+        {/*<TodoList titles={"What to learn 1"} title={tasks1}/>*/}
+        {/*<TodoList  titles={"What to learn 2"} title={tasks2}/>*/}
 
+        <Rating value={0}/>
+        <Rating value={1}/>
+        <Rating value={2}/>
+        <Rating value={3}/>
+        <Rating value={4}/>
+        <Rating value={5}/>
+        <Accordion titleValue={"меню"} colapsed={false}/>
+        <Accordion titleValue={"Пользователи"} colapsed={true}/>
 
 
     </div>
 );
-}
 
+
+
+}
 export default App;
