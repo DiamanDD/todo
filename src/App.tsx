@@ -1,41 +1,55 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {taskType} from "./TodoList";
-import {Rating} from "./components/Rating";
-import {Accordion} from "./components/Accordion";
+import {taskType} from "./components/TodoList";
+import {TodoList} from "./components/TodoList";
+export type filterNasadkaType="All" |"Active"|"Completed"
+function App() {
+    let [tasks1, setTassc1] = useState([
+        {id: 1, title: "CSS", isDone: true},
+        {id: 2, title: "JS", isDone: true},
+        {id: 3, title: "React", isDone: false},
+        {id: 4, title: "React", isDone: true},
+    ])
+    type filterNasadkaType="All" |"Active"|"Completed"
+    let[nasadka, setNasadka] = useState<filterNasadkaType>("Completed")
+
+    let nasadkaFilter=tasks1
+    if(nasadka=="Active"){
+        tasks1=tasks1.filter(selectorMessage=>selectorMessage.isDone==false)
+    }
+    else if(nasadka=="Completed"){
+        tasks1=tasks1.filter(selectorMessage=>selectorMessage.isDone==true)
+    }
+    else{
+        tasks1=tasks1
+
+    }
 
 
-function App(){
 
-let tasks1:Array<taskType>  = [
-    {id: 1, title: "CSS", isDone: true },
-    {id: 2, title: "JS", isDone: true },
-    {id: 3, title: "React", isDone: false }
-];
-    let tasks2:Array<taskType>  = [
-        {id: 1, title: "CSS1", isDone: false },
-        {id: 2, title: "JS2", isDone: true },
-        {id: 3, title: "React3", isDone: false }
-    ];
-return (
-    <div className="App">
-        {/*<TodoList titles={"What to learn 1"} title={tasks1}/>*/}
-        {/*<TodoList  titles={"What to learn 2"} title={tasks2}/>*/}
-
-        <Rating value={0}/>
-        <Rating value={1}/>
-        <Rating value={2}/>
-        <Rating value={3}/>
-        <Rating value={4}/>
-        <Rating value={5}/>
-        <Accordion titleValue={"меню"} colapsed={false}/>
-        <Accordion titleValue={"Пользователи"} colapsed={true}/>
+    const removeTasks=(mTascks:number)=>{
+        console.log(mTascks)
+        tasks1=tasks1.filter(removeTasks=>removeTasks.id!=mTascks)
+        setTassc1(tasks1)
+    }
+   const setFilters=(valueFilters:filterNasadkaType)=>{
+        console.log(valueFilters)
+        setNasadka(valueFilters)
+    }
 
 
-    </div>
-);
 
+    return (
+        <div className="App">
+            <TodoList
+                titles={"What to learn 1"}
+                setFilters={setFilters}
+                tasks={tasks1}
+                removeTasks={removeTasks}/>
+        </div>
+    );
 
 
 }
+
 export default App;
