@@ -1,27 +1,47 @@
-import React, {useState} from "react";
+import React, {ChangeEvent,KeyboardEvent, useState} from "react";
+
 
 
 export type taskType = {
-    id: number;
+    id: string;
     title: string;
     isDone: boolean;
 }
 
 
-type propsType = {
+export type propsType = {
     titles: string;
     tasks: Array<taskType>
-    removeItems:(id:number)=>void
+    removeItems:(id:string)=>void
     selectedParametr:(value:"All"| "Active"| "Completed")=>void
+    newTasks:(title:string)=>void
 
 }
+
+
 export const TodoList = (props: propsType) => {
+    const addTask=()=> {
+        props.newTasks(title)
+        setTitel("")
+    }
+    let [title, setTitel]=useState("")
+    const onChangeHandler=(t:ChangeEvent<HTMLInputElement>)=>{
+        setTitel(t.currentTarget.value)
+    }
+
+    const onKeyPressHandler=(e:KeyboardEvent<HTMLInputElement>)=>{if (e.charCode===13){ addTask()}
+
+    }
+
     return (
         <div>
             <h3>{props.titles}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input value={title}
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                />
+                <button onClick={addTask}>+</button>
             </div>
             <ul>
 

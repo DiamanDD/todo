@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
+
 import './App.css';
 
-import {taskType, TodoList} from "./components/TodoList";
+import {propsType, taskType, TodoList} from "./components/TodoList";
+import {v1} from "uuid";
 
 function App() {
 
 let [tasksFielter,setFilter]=useState( [
-        {id: 1, title: "CSS", isDone: true},
-        {id: 2, title: "JS", isDone: true},
-        {id: 3, title: "React", isDone: false},
-        {id: 4, title: "React-Native", isDone: true},
+        {id: v1(), title: "CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "React", isDone: false},
+        {id: v1(), title: "React-Native", isDone: true},
     ])
     let [selectedfilter, setselectedFilter]=useState<"All"| "Active"| "Completed">("All")
 
@@ -21,7 +23,7 @@ let [tasksFielter,setFilter]=useState( [
     }
 
 
- const removeItems=(id:number)=>{
+ const removeItems=(id:string)=>{
      tasksFielter=tasksFielter.filter(t=>(t.id!==id) )
      setFilter(tasksFielter)
  }
@@ -31,6 +33,11 @@ let [tasksFielter,setFilter]=useState( [
 
     }
 
+    const addTask=(title:string)=>{
+        let task:taskType={id:v1(),title:title,isDone:true}
+        let newTasks=[task, ...tasksFielter]
+        setFilter(newTasks)
+    }
 
     return (
         <div className="App">
@@ -39,6 +46,7 @@ let [tasksFielter,setFilter]=useState( [
                 removeItems={removeItems}
                 selectedParametr={selectedParametr}
                 tasks={tasksFielter}
+                newTasks={addTask}
                 />
         </div>
     )
