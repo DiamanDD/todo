@@ -1,8 +1,13 @@
-/*.App {*/
-/*  padding: 30px;*/
-/*  display: flex;*/
-/*}*/
 
-/*.App > div {*/
-/*  margin-right: 50px;*/
-/*}*/
+.colorButtonFielter{
+    background-color: cornflowerblue;
+    color: aliceblue;
+}
+
+.error{
+    border: 2px solid red;
+}
+
+.textError{
+    color:red;
+}
