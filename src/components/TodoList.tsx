@@ -1,4 +1,5 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, MouseEventHandler, useState} from "react";
+import {selectedfilterType} from "../App";
 
 
 export type taskType = {
@@ -6,27 +7,23 @@ export type taskType = {
     title: string;
     isDone: boolean;
 }
-
-
 export type propsType = {
+    id:string
     titles: string;
     tasks: Array<taskType>
-    removeItems: (id: string) => void
-    selectedParametr: (value: "All" | "Active" | "Completed") => void
-    newTasks: (title: string) => void
-    selectedfilter: "All" | "Active" | "Completed"
-    setActiveChecked: (id: string, isDone: boolean) => void
-
+    removeItems: (id: string,todoListId:string) => void
+    selectedParametr: (value: selectedfilterType,todoLostId:string) => void
+    newTasks: (title: string,todoListId:string) => void
+    selectedfilter: selectedfilterType
+    setActiveChecked: (id: string, isDone: boolean,todoListId:string) => void
+    deleteTodolist:(todoListId:string)=>void
 
 }
-
-
 export const TodoList = (props: propsType) => {
-
     const [error, seterror] = useState("")
     const setError = error ? <div className={"textError"}>{error}</div> : null
     const addTask = () => {
-        title ? props.newTasks(title.trim()) : seterror("Поле пустое")
+        title ? props.newTasks(title.trim(),props.id) : seterror("Поле пустое")
         setTitel("")
     }
     let [title, setTitel] = useState("")
@@ -36,21 +33,17 @@ export const TodoList = (props: propsType) => {
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         seterror("")
-        if (e.charCode === 13) {
-            addTask()
-        }
-
+        if (e.charCode === 13)addTask()
     }
-    const onClickALL = () => {
+    const onClickALL = () => (props.selectedParametr("All",props.id))
 
-        return (props.selectedParametr("All"))
-    }
-    const onClickActive = () => (props.selectedParametr("Active"))
-    const onClickCompleted = () => (props.selectedParametr("Completed"))
-
+    const onClickActive = () => (props.selectedParametr("Active",props.id))
+    const onClickCompleted = () => (props.selectedParametr("Completed",props.id))
+    const deletTodolist=()=> props.deleteTodolist(props.id)
     return (
-        <div>
-            <h3>{props.titles}</h3>
+        <div key={props.id}>
+            <h3>{props.titles} <button onClick={deletTodolist}>X</button></h3>
+
             <div>
                 <input value={title}
                        className={error ? "error" : ""}
@@ -61,26 +54,20 @@ export const TodoList = (props: propsType) => {
                 {setError}
             </div>
             <ul>
+                {props.tasks.map((elem) => {
+                        const deleteTasks = () => props.removeItems(elem.id,props.id)
+                        const onChangeCheked = (e: ChangeEvent<HTMLInputElement>) => props.setActiveChecked(elem.id, e.currentTarget.checked,props.id)
 
-                {
-
-                    props.tasks.map((elem) => {
-                        const deleteTasks = () => props.removeItems(elem.id)
-                        const onChangeCheked = (e: ChangeEvent<HTMLInputElement>) => {
-                            props.setActiveChecked(elem.id, e.currentTarget.checked)
-                        }
                         return (
-
                             <li key={elem.id}><input
+                                id={props.id}
                                 type="checkbox"
                                 checked={elem.isDone}
                                 onChange={onChangeCheked}
                             />
                                 <span>{elem.title}</span>
                                 <button onClick={deleteTasks}>x</button>
-
                             </li>
-
                         )
                     })
                 }
