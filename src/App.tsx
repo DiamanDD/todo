@@ -41,8 +41,8 @@ function App() {
     const changeStatus = (id: string, isDone: boolean, todoListId: string) => {
 
         let newlistTasck = tasks[todoListId]
-        let newtask = newlistTasck.map(t => (t.id === id ? {...t, isDone: isDone} : t))
-        tasks[todoListId] = newtask
+
+        tasks[todoListId] = newlistTasck.map(t => (t.id === id ? {...t, isDone: isDone} : t))
         setTascks({...tasks})
         debugger
 
@@ -50,8 +50,8 @@ function App() {
     const updateTask = (id: string, newTitle:string, todoListId: string) => {
 
         let newlistTasck = tasks[todoListId]
-        let newtask = newlistTasck.map(t => (t.id === id ? {...t, title:newTitle} : t))
-        tasks[todoListId] = newtask
+
+        tasks[todoListId] = newlistTasck.map(t => (t.id === id ? {...t, title:newTitle} : t))
         setTascks({...tasks})
         console.log(tasks)
 
@@ -121,10 +121,11 @@ function App() {
         <div className="App">
             <AddItemFormAddItem newTasks={addTodolist}/>
             {todoList.map(tl => {
-                let allTodolist = tasks[tl.id]
-                let taskForTodoList = allTodolist
-                if (tl.filter === "Active") (taskForTodoList = taskForTodoList.filter(s => (s.isDone === false)))
-                else if (tl.filter === "Completed") (taskForTodoList = taskForTodoList.filter(s => (s.isDone === true)))
+
+                let taskForTodoList = tasks[tl.id]
+                if (tl.filter === "Active") (taskForTodoList = taskForTodoList.filter(s => (s.isDone)))
+                else if (tl.filter === "Completed") (taskForTodoList = taskForTodoList.filter(s => (s.isDone)))
+
 
                 return <TodoList
 
