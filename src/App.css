@@ -1,16 +1,10 @@
-
-.colorButtonFielter{
-    background-color: cornflowerblue;
-    color: aliceblue;
+span{
+    font-size: 20px;
+    font-weight: bolder;
 }
 
-.error{
-    border: 2px solid red;
-}
-
-.textError{
-    color:red;
-}
-body{
-    margin: 50px;
+.spanstyle{
+    width: 100%;
+    margin: 5px;
+    display: inline-block;
 }
