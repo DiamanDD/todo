@@ -8,7 +8,7 @@ import {AddItemFormAddItem} from "./components/AddItemFormAddItemForm/AddItemFor
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 
-type todoListType = {
+export type todoListType = {
     id: string
     title: string
     filter: selectedfilterType
@@ -93,11 +93,10 @@ function App() {
         ])
     const filterDeletTodolist = (todolistid: string) => {
         let dletedTodolist = todoList.filter(dtl => dtl.id !== todolistid)
-        console.log(dletedTodolist)
         setTodolist(dletedTodolist)
         delete tasks[todolistid]
         setTascks({...tasks})
-        console.log(tasks)
+
     }
 
     const addTodolist = (title: string) => {

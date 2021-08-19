@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from "react";
 import {selectedfilterType} from "../App";
 import {AddItemFormAddItem} from "./AddItemFormAddItemForm/AddItemFormAddItem";
-import {EditableSpanType} from "./EditableSpan/EditableSpan";
+import {EditableSpan} from "./EditableSpan/EditableSpan";
 import {Button, Checkbox, Grid, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 
@@ -48,7 +48,7 @@ export const TodoList = (props: propsType) => {
             <h3>
                 <Grid container >
                     <Grid item xs={9} >
-                        <EditableSpanType
+                        <EditableSpan
                             title={props.titles}
                             onChange={onChangeNewTodolist}/>
                     </Grid>
@@ -86,7 +86,7 @@ export const TodoList = (props: propsType) => {
                                 </Grid>
 
                                 <Grid item xs={4}>
-                                    <EditableSpanType title={elem.title} onChange={onChangeNewTask}/>
+                                    <EditableSpan title={elem.title} onChange={onChangeNewTask}/>
                                 </Grid>
                                 <Grid item xs>
                                     <IconButton aria-label="delete" onClick={deleteTasks}>
