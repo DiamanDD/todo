@@ -27,13 +27,14 @@ export type propsType = {
 }
 
 export const TodoList = (props: propsType) => {
+
     const addTask = (title: string) => {
         props.newTasks(title.trim(), props.id)
     }
 
 
-    const onClickALL = () => (props.selectedParametr("All", props.id))
 
+    const onClickALL = () => (props.selectedParametr("All", props.id))
     const onClickActive = () => (props.selectedParametr("Active", props.id))
     const onClickCompleted = () => (props.selectedParametr("Completed", props.id))
     const deletTodolist = () => props.deleteTodolist(props.id)
@@ -62,6 +63,7 @@ export const TodoList = (props: propsType) => {
 
 
             <AddItemFormAddItem newTasks={addTask}/>
+
 
             <div>
                 {props.tasks.map((elem) => {
