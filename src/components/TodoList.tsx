@@ -1,9 +1,11 @@
-import React, {ChangeEvent} from "react";
-import {selectedfilterType} from "../App";
+import React, {useCallback} from "react";
+
 import {AddItemFormAddItem} from "./AddItemFormAddItemForm/AddItemFormAddItem";
 import {EditableSpan} from "./EditableSpan/EditableSpan";
-import {Button, Checkbox, Grid, IconButton} from "@material-ui/core";
+import {Button, Grid, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import {selectedfilterType} from "../AppWithREDUX";
+import {Tasks} from "./Tasks";
 
 
 export type taskType = {
@@ -15,6 +17,7 @@ export type propsType = {
     id: string
     titles: string;
     tasks: Array<taskType>
+
     removeItems: (id: string, todoListId: string) => void
     selectedParametr: (value: selectedfilterType, todoLostId: string) => void
     newTasks: (title: string, todoListId: string) => void
@@ -22,26 +25,34 @@ export type propsType = {
     setActiveChecked: (id: string, isDone: boolean, todoListId: string) => void
     deleteTodolist: (todoListId: string) => void
     setUpdTask: (id: string, newTitle: string, todoListId: string) => void
-    onChangeNewTodolist: (newTitle: string, todoListId: string) => void
+    onChangeNewTodolistprops: (newTitle: string, todoListId: string) => void
 
 }
 
-export const TodoList = (props: propsType) => {
+export const TodoList =React.memo( (props: propsType) => {
 
-    const addTask = (title: string) => {
-        props.newTasks(title.trim(), props.id)
-    }
-
+    console.log("TodoList is called")
+    const {id,newTasks,selectedParametr,deleteTodolist,onChangeNewTodolistprops}=props
 
 
-    const onClickALL = () => (props.selectedParametr("All", props.id))
-    const onClickActive = () => (props.selectedParametr("Active", props.id))
-    const onClickCompleted = () => (props.selectedParametr("Completed", props.id))
-    const deletTodolist = () => props.deleteTodolist(props.id)
+    const addTask =useCallback( (title: string) => {
+      newTasks(title.trim(), id)
+    },[newTasks,id])
 
 
-    const onChangeNewTodolist = (newTitle: string) => props.onChangeNewTodolist(newTitle, props.id,)
 
+    const onClickALL = () => (selectedParametr("All", id))
+    const onClickActive = () => (selectedParametr("Active", id))
+    const onClickCompleted = () => (selectedParametr("Completed", id))
+    const deletTodolist = () => deleteTodolist(id)
+
+
+    const onChangeNewTodolist = useCallback( (newTitle: string) => onChangeNewTodolistprops(newTitle, id),[onChangeNewTodolistprops,id])
+    let taskForTodoList = props.tasks
+
+    if (props.selectedfilter === "Active") {taskForTodoList = taskForTodoList.filter(s => (s.isDone))}
+   if (props.selectedfilter === "Completed") {
+    taskForTodoList = taskForTodoList.filter(s => (!s.isDone))}
 
     return (
         <div key={props.id}>
@@ -66,40 +77,49 @@ export const TodoList = (props: propsType) => {
 
 
             <div>
-                {props.tasks.map((elem) => {
-                    const deleteTasks = () => props.removeItems(elem.id, props.id)
-                    const onChangeCheked = (e: ChangeEvent<HTMLInputElement>) => props.setActiveChecked(elem.id, e.currentTarget.checked, props.id)
-                    const onChangeNewTask = (newTitle: string) => props.setUpdTask(elem.id, newTitle, props.id)
+                {
+                    taskForTodoList.map((elem) =>
 
-                    return (
-
-                        <div key={elem.id}>
-                            <Grid container
-                            >
-                                <Grid item xs>
-                                    <Checkbox
-                                        id={props.id}
-
-                                        checked={elem.isDone}
-                                        onChange={onChangeCheked}
-                                        name="checkedB"
-                                        color="primary"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={4}>
-                                    <EditableSpan title={elem.title} onChange={onChangeNewTask}/>
-                                </Grid>
-                                <Grid item xs>
-                                    <IconButton aria-label="delete" onClick={deleteTasks}>
-                                        <Delete/>
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </div>
-
-                    )
-                })
+                    <Tasks
+                        key={elem.id}
+                        tasks={elem}
+                        todolistId={props.id}
+                        setUpdTask={props.setUpdTask}
+                        setActiveChecked={props.setActiveChecked}
+                        removeItems={props.removeItems}/>
+                    // const deleteTasks = () => props.removeItems(elem.id, props.id)
+                    // const onChangeCheked = (e: ChangeEvent<HTMLInputElement>) => props.setActiveChecked(elem.id, e.currentTarget.checked, props.id)
+                    // const onChangeNewTask = (newTitle: string) => props.setUpdTask(elem.id, newTitle, props.id)
+                    //
+                    // return (
+                    //
+                    //     <div key={elem.id}>
+                    //         <Grid container
+                    //         >
+                    //             <Grid item xs>
+                    //                 <Checkbox
+                    //                     id={props.id}
+                    //
+                    //                     checked={elem.isDone}
+                    //                     onChange={onChangeCheked}
+                    //                     name="checkedB"
+                    //                     color="primary"
+                    //                 />
+                    //             </Grid>
+                    //
+                    //             <Grid item xs={4}>
+                    //                 <EditableSpan title={elem.title} onChange={onChangeNewTask}/>
+                    //             </Grid>
+                    //             <Grid item xs>
+                    //                 <IconButton aria-label="delete" onClick={deleteTasks}>
+                    //                     <Delete/>
+                    //                 </IconButton>
+                    //             </Grid>
+                    //         </Grid>
+                    //     </div>
+                    //
+                    // )
+                )
                 }
             </div>
             <div>
@@ -123,6 +143,6 @@ export const TodoList = (props: propsType) => {
 
 
     )
-}
+})
 
 

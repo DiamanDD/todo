@@ -6,7 +6,8 @@ type AddItemFormAddItemForm = {
 
 
 }
-export const AddItemFormAddItem = (props: AddItemFormAddItemForm) => {
+export const AddItemFormAddItem =React.memo( (props: AddItemFormAddItemForm) => {
+    console.log("AddItemFormAddItem is called")
 
     const [title, setTitel] = useState("")
     const [error, seterror] = useState("")
@@ -21,7 +22,10 @@ export const AddItemFormAddItem = (props: AddItemFormAddItemForm) => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        seterror("")
+        if (error !== ""){
+            seterror("")
+        }
+
         if (e.charCode === 13) addItem()
     }
     return (
@@ -54,4 +58,4 @@ export const AddItemFormAddItem = (props: AddItemFormAddItemForm) => {
         </div>
     )
 
-}
+})

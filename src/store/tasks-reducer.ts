@@ -1,6 +1,6 @@
-import {TascsStateType} from "../App";
+import {TascsStateType} from "../AppWithREDUX";
 import {v1} from "uuid";
-import {AddTodoListType, RemoveTodolistType, todoList1, todolist2} from "./todolists-reducer";
+import {AddTodoListType, RemoveTodolistType} from "./todolists-reducer";
 
 const ADD_TASK = "ADD_TASK"
 const REMOVE_TASK = "REMOVE_TASK"
@@ -57,26 +57,26 @@ export const changeStatusTaskAC = (id: string, isDone: boolean, todolistID: stri
     } as const
 }
 const InitialState: TascsStateType = {
-    [todoList1]: [
-        {id: v1(), title: "CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "React", isDone: false},
-        {id: v1(), title: "React-Native", isDone: true}
-    ],
-    [todolist2]: [
-        {id: v1(), title: "milk", isDone: true},
-        {id: v1(), title: "bread", isDone: true},
-        {id: v1(), title: "petr", isDone: false},
 
-    ]
+    // [todoList1]: [
+    //     {id: v1(), title: "CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    //     {id: v1(), title: "React", isDone: false},
+    //     {id: v1(), title: "React-Native", isDone: true}
+    // ],
+    // [todolist2]: [
+    //     {id: v1(), title: "milk", isDone: true},
+    //     {id: v1(), title: "bread", isDone: true},
+    //     {id: v1(), title: "petr", isDone: false},
+    //
+    // ]
 }
 
 export const tasksReducer = (state: TascsStateType = InitialState, action: tasksACtype): TascsStateType => {
     switch (action.type) {
 
         case ADD_TASK: {
-
-            return {
+                      return {
                 ...state,
                 [action.todolistID]: [{id: v1(), title: action.title, isDone: false},
                     ...state[action.todolistID]]

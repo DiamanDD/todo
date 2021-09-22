@@ -1,5 +1,6 @@
-import {selectedfilterType, todoListType} from "../App";
+
 import {v1} from "uuid";
+import { selectedfilterType, todoListType } from "../AppWithREDUX";
 
 export type RemoveTodolistType = {
     type: "REMOVE-TODOLIST"
@@ -43,8 +44,8 @@ export let todoList1 = v1()
 export let todolist2 = v1()
 
 const InitialState:Array<todoListType>=[
-    {id: todoList1, title: "list1", filter: "All"},
-    {id: todolist2, title: "list2", filter: "All"}
+    // {id: todoList1, title: "list1", filter: "All"},
+    // {id: todolist2, title: "list2", filter: "All"}
 ]
 
 
