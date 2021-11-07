@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import "./App.css";
-import {taskType, TodoList} from "./components/TodoList";
+import { TodoList} from "./components/TodoList";
 import {AddItemFormAddItem} from "./components/AddItemFormAddItemForm/AddItemFormAddItem";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
@@ -8,28 +8,22 @@ import {
     addTodolostAC,
     changeTodolistFilterAC,
     changeTodoListTitleAC,
-    removeTodolostAC
+    removeTodolostAC, TodoListDomainType
 } from "./store/todolists-reducer";
-import {addTaskAC, changeStatusTaskAC, removeTaskAC, updateTaskAC} from "./store/tasks-reducer";
+import {addTaskAC, changeStatusTaskAC, removeTaskAC, TascsStateType, updateTaskAC} from "./store/tasks-reducer";
 import {AppStateType} from "./store/root-redicer";
 import {useDispatch, useSelector} from "react-redux";
+import {TaskStatuses} from "./api/todolosts-api";
 
-export type todoListType = {
-    id: string
-    title: string
-    filter: selectedfilterType
 
-}
-export type TascsStateType = {
-    [key: string]: Array<taskType>
-}
+
 export type selectedfilterType = "All" | "Active" | "Completed"
 
 
 function App(){
     console.log("App is called")
 
-    const todoList = useSelector<AppStateType, Array<todoListType>>(store => store.todoListReducer)
+    const todoList = useSelector<AppStateType, Array<TodoListDomainType>>(store => store.todoListReducer)
     const tasks = useSelector<AppStateType, TascsStateType>(store => store.tasksReducer)
     const dispatch = useDispatch()
 
@@ -53,9 +47,9 @@ function App(){
 
     }, [dispatch])
 
-    const changeStatusTask = useCallback((id: string, isDone: boolean, todoListId: string) => {
+    const changeStatusTask = useCallback((id: string, status:TaskStatuses, todoListId: string) => {
 
-        dispatch(changeStatusTaskAC(id, isDone, todoListId))
+        dispatch(changeStatusTaskAC(id, status, todoListId))
 
     }, [dispatch])
     const updateTask = useCallback((id: string, newTitle: string, todoListId: string) => {

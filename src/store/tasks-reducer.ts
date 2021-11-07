@@ -1,6 +1,9 @@
-import {TascsStateType} from "../AppWithREDUX";
+
 import {v1} from "uuid";
 import {AddTodoListType, RemoveTodolistType, todoList1, todolist2} from "./todolists-reducer";
+import {TaskStatuses, TasksType} from "../api/todolosts-api";
+
+
 
 const ADD_TASK = "ADD_TASK"
 const REMOVE_TASK = "REMOVE_TASK"
@@ -21,6 +24,9 @@ type removeTascksAT = ReturnType<typeof removeTaskAC>
 type updateTascksAT = ReturnType<typeof updateTaskAC>
 type changeStatusTaskAT = ReturnType<typeof changeStatusTaskAC>
 
+export type TascsStateType = {
+    [key: string]: Array<TasksType>
+}
 
 export const addTaskAC = (title: string, todolistID: string) => {
     return {
@@ -47,10 +53,11 @@ export const updateTaskAC = (id: string, newTitle: string, todolistID: string) =
 
     } as const
 }
-export const changeStatusTaskAC = (id: string, isDone: boolean, todolistID: string) => {
+export const changeStatusTaskAC = (id: string, status:TaskStatuses, todolistID: string) => {
+
     return {
         type: CHANGE_TASK,
-        isDone: isDone,
+        status: status,
         id: id,
         todolistID: todolistID
 
@@ -59,15 +66,15 @@ export const changeStatusTaskAC = (id: string, isDone: boolean, todolistID: stri
 const InitialState: TascsStateType = {
 
     [todoList1]: [
-        {id: v1(), title: "CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "React", isDone: false},
-        {id: v1(), title: "React-Native", isDone: true}
+        {id: v1(), title: "CSS", status:TaskStatuses.Competed,addedDate:"",deadline:"",description:"desript",order:0,priority:0,startDate:"",todoListId:todoList1},
+        {id: v1(), title: "JS", status:TaskStatuses.Competed,addedDate:"",deadline:"",description:"desript",order:0,priority:0,startDate:"",todoListId:todoList1},
+        {id: v1(), title: "React",status:TaskStatuses.New,addedDate:"",deadline:"",description:"desript",order:0,priority:0,startDate:"",todoListId:todoList1},
+        {id: v1(), title: "React-Native", status:TaskStatuses.Competed,addedDate:"",deadline:"",description:"desript",order:0,priority:0,startDate:"",todoListId:todoList1}
     ],
     [todolist2]: [
-        {id: v1(), title: "milk", isDone: true},
-        {id: v1(), title: "bread", isDone: true},
-        {id: v1(), title: "petr", isDone: false},
+        {id: v1(), title: "milk", status:TaskStatuses.Competed,addedDate:"",deadline:"",description:"desript",order:0,priority:0,startDate:"",todoListId:todolist2},
+        {id: v1(), title: "bread",status:TaskStatuses.Competed,addedDate:"",deadline:"",description:"desript",order:0,priority:0,startDate:"",todoListId:todolist2},
+        {id: v1(), title: "petr",status:TaskStatuses.New,addedDate:"",deadline:"",description:"desript",order:0,priority:0,startDate:"",todoListId:todolist2},
 
     ]
 }
@@ -78,7 +85,7 @@ export const tasksReducer = (state: TascsStateType = InitialState, action: tasks
         case ADD_TASK: {
                       return {
                 ...state,
-                [action.todolistID]: [{id: v1(), title: action.title, isDone: false},
+                [action.todolistID]: [{id: v1(), title: action.title,  status:TaskStatuses.New,addedDate:"",deadline:"",description:"desript",order:0,priority:0,startDate:"",todoListId:action.todolistID},
                     ...state[action.todolistID]]
             }
         }
@@ -97,12 +104,13 @@ export const tasksReducer = (state: TascsStateType = InitialState, action: tasks
             }
         }
         case CHANGE_TASK: {
+            console.log(action.status)
             const stateCopy = {...state}
             let newlistTasck = state[action.todolistID]
 
             stateCopy[action.todolistID] = newlistTasck.map(t => (t.id === action.id ? {
                 ...t,
-                isDone: action.isDone
+                status: action.status
             } : t))
 
 

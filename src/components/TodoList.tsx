@@ -6,23 +6,24 @@ import {Button, Grid, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {selectedfilterType} from "../AppWithREDUX";
 import {Tasks} from "./Tasks";
+import {TaskStatuses, TasksType} from "../api/todolosts-api";
 
 
-export type taskType = {
-    id: string;
-    title: string;
-    isDone: boolean;
-}
+// export type taskType = {
+//     id: string;
+//     title: string;
+//     isDone: boolean;
+// }
 export type propsType = {
     id: string
     titles: string;
-    tasks: Array<taskType>
+    tasks: Array<TasksType>
 
     removeItems: (id: string, todoListId: string) => void
     selectedParametr: (value: selectedfilterType, todoLostId: string) => void
     newTasks: (title: string, todoListId: string) => void
     selectedfilter: selectedfilterType
-    setActiveChecked: (id: string, isDone: boolean, todoListId: string) => void
+    setActiveChecked: (id: string, status:TaskStatuses, todoListId: string) => void
     deleteTodolist: (todoListId: string) => void
     setUpdTask: (id: string, newTitle: string, todoListId: string) => void
     onChangeNewTodolistprops: (newTitle: string, todoListId: string) => void
@@ -50,9 +51,9 @@ export const TodoList =React.memo( (props: propsType) => {
     const onChangeNewTodolist = useCallback( (newTitle: string) => onChangeNewTodolistprops(newTitle, id),[onChangeNewTodolistprops,id])
     let taskForTodoList = props.tasks
 
-    if (props.selectedfilter === "Active") {taskForTodoList = taskForTodoList.filter(s => (s.isDone))}
+    if (props.selectedfilter === "Active") {taskForTodoList = taskForTodoList.filter(s => (s.status==TaskStatuses.New))}
    if (props.selectedfilter === "Completed") {
-    taskForTodoList = taskForTodoList.filter(s => (!s.isDone))}
+    taskForTodoList = taskForTodoList.filter(s => (s.status===TaskStatuses.Competed))}
 
     return (
         <div key={props.id}>
@@ -87,38 +88,7 @@ export const TodoList =React.memo( (props: propsType) => {
                         setUpdTask={props.setUpdTask}
                         setActiveChecked={props.setActiveChecked}
                         removeItems={props.removeItems}/>
-                    // const deleteTasks = () => props.removeItems(elem.id, props.id)
-                    // const onChangeCheked = (e: ChangeEvent<HTMLInputElement>) => props.setActiveChecked(elem.id, e.currentTarget.checked, props.id)
-                    // const onChangeNewTask = (newTitle: string) => props.setUpdTask(elem.id, newTitle, props.id)
-                    //
-                    // return (
-                    //
-                    //     <div key={elem.id}>
-                    //         <Grid container
-                    //         >
-                    //             <Grid item xs>
-                    //                 <Checkbox
-                    //                     id={props.id}
-                    //
-                    //                     checked={elem.isDone}
-                    //                     onChange={onChangeCheked}
-                    //                     name="checkedB"
-                    //                     color="primary"
-                    //                 />
-                    //             </Grid>
-                    //
-                    //             <Grid item xs={4}>
-                    //                 <EditableSpan title={elem.title} onChange={onChangeNewTask}/>
-                    //             </Grid>
-                    //             <Grid item xs>
-                    //                 <IconButton aria-label="delete" onClick={deleteTasks}>
-                    //                     <Delete/>
-                    //                 </IconButton>
-                    //             </Grid>
-                    //         </Grid>
-                    //     </div>
-                    //
-                    // )
+
                 )
                 }
             </div>

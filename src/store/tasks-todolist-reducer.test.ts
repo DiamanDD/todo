@@ -1,11 +1,12 @@
-import {TascsStateType, todoListType} from "../AppWithREDUX";
-import {addTodolostAC, removeTodolostAC, todoListReducer} from "./todolists-reducer";
-import {tasksReducer} from "./tasks-reducer";
+
+import {addTodolostAC, removeTodolostAC, TodoListDomainType, todoListReducer} from "./todolists-reducer";
+import {TascsStateType, tasksReducer} from "./tasks-reducer";
+import { TaskStatuses } from "../api/todolosts-api";
 
 
 test("correct tasks should be added", () => {
     const startTaskState:TascsStateType={}
-    const starnTodolistState:Array<todoListType>=[]
+    const starnTodolistState:Array<TodoListDomainType>=[]
     const action=addTodolostAC("newTL")
     const endTasksState=tasksReducer(startTaskState,action)
     const endTodolistState=todoListReducer(starnTodolistState,action)
@@ -24,14 +25,14 @@ test("correct tasks should be added", () => {
 test('property with todolistId should be deleted', () => {
     const startState: TascsStateType = {
         "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
+            { id: "1", title: "CSS", status:TaskStatuses.New,todoListId:"todolistId1",addedDate:"",startDate:"",description:"--",deadline:",",order:0,priority:0 },
+            { id: "2", title: "JS", status:TaskStatuses.Competed,todoListId:"todoList1",addedDate:"",startDate:"",description:"--",deadline:",",order:0,priority:0 },
+            { id: "3", title: "React", status:TaskStatuses.New,todoListId:"todoList1",addedDate:"",startDate:"",description:"--",deadline:",",order:0,priority:0 }
         ],
         "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "2", title: "milk", isDone: true },
-            { id: "3", title: "tea", isDone: false }
+            { id: "1", title: "bread", status:TaskStatuses.New,todoListId:"todolistId1",addedDate:"",startDate:"",description:"--",deadline:",",order:0,priority:0 },
+            { id: "2", title: "milk", status:TaskStatuses.Competed,todoListId:"todolistId1",addedDate:"",startDate:"",description:"--",deadline:",",order:0,priority:0},
+            { id: "3", title: "tea", status:TaskStatuses.New,todoListId:"todolistId1",addedDate:"",startDate:"",description:"--",deadline:",",order:0,priority:0 }
         ]
     };
 
