@@ -26,7 +26,7 @@ export type TascsStateType = {
 export type selectedfilterType = "All" | "Active" | "Completed"
 
 
-function App() {
+function App(){
     console.log("App is called")
 
     const todoList = useSelector<AppStateType, Array<todoListType>>(store => store.todoListReducer)

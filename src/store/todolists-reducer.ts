@@ -40,12 +40,13 @@ export const changeTodolistFilterAC = (todolistId2: string, newFilter: selectedf
         filter: newFilter
     }
 }
+
 export let todoList1 = v1()
 export let todolist2 = v1()
 
 const InitialState:Array<todoListType>=[
-    // {id: todoList1, title: "list1", filter: "All"},
-    // {id: todolist2, title: "list2", filter: "All"}
+    {id: todoList1, title: "list1", filter: "All"},
+    {id: todolist2, title: "list2", filter: "All"}
 ]
 
 
