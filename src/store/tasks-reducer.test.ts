@@ -23,8 +23,7 @@ test("correct tasks should be added", () => {
     }
     const task={
         description: "ddddd",
-        title: "ddddddd",
-
+        title: title,
         status: 1,
         priority: 2,
         startDate: null,
@@ -36,9 +35,9 @@ test("correct tasks should be added", () => {
     }
     const newstate = tasksReducer(tasks, addTaskAC(task))
 
-    expect(newstate[todolist2].length).toBe(3)
-    expect(newstate[todoList1].length).toBe(4)
-    expect(newstate[todolist2][0].title).toBe(title)
+    expect(newstate[todolist2].length).toBe(2)
+    expect(newstate[todoList1].length).toBe(5)
+    expect(newstate[todoList1][0].title).toBe(title)
 
 });
 test("correct tasks should be deleted", () => {
