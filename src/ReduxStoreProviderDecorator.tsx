@@ -1,8 +1,8 @@
 import {Provider} from "react-redux";
-import store, {AppStateType} from "./store/root-redicer";
+import {AppStateType} from "./store/root-redicer";
 import {combineReducers, createStore} from "redux";
-import {TascsStateType, tasksReducer} from "./store/tasks-reducer";
-import {todoList1, todolist2, TodoListDomainType, todoListReducer} from "./store/todolists-reducer";
+import {tasksReducer} from "./store/tasks-reducer";
+import {todoListReducer} from "./store/todolists-reducer";
 import {v1} from "uuid";
 
 
@@ -10,11 +10,7 @@ const rootReducer = combineReducers({
    todoListReducer,
     tasksReducer,
 })
-type InitialStateGlobalStoryestype={
 
-    todolist:Array<TodoListDomainType>,
-    tasks:TascsStateType,
-}
 
 const InitialStateGlobalStoryes = {
     tasks: {

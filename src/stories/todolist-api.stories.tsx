@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import axios from "axios";
-import {todoListAPI} from "../api/todolosts-api";
+import {todoListAPI, updateTaskType} from "../api/todolosts-api";
 
 
 export default {
@@ -38,7 +37,7 @@ export const CreateTodolist = () => {
 }
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
-    const todoListId = "29bb7fe5-0104-4c7d-a718-2cbed69a8831"
+    const todoListId = "3d939563-7db5-438a-9887-60305941c7cd"
     useEffect(() => {
         todoListAPI.deleteTodoList(todoListId).then((res) => {
             setState(JSON.stringify(res.data))
@@ -52,7 +51,7 @@ export const DeleteTodolist = () => {
 }
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
-    const todoListId = "c23cf8bb-3393-4324-aab0-b1125eaaf596"
+    const todoListId = "cf6230d0-e1a8-445b-a75b-6acfb77ee145"
     const newTitle = "BlaBlaBla"
     useEffect(() => {
         todoListAPI.updateTodoList(todoListId, newTitle).then((res) => {
@@ -84,7 +83,7 @@ export const GetTodoListTasks = () => {
 export const CreateTodoListTasks = () => {
     const [state, setState] = useState<any>(null)
     const todoListId = "577a2955-9059-4bba-afc2-14cfd5d733fd"
-    const taskTitle="Task 2"
+    const taskTitle="Task 5"
     useEffect(() => {
         todoListAPI.createTask(todoListId,taskTitle)
             .then((res) => {
@@ -115,16 +114,15 @@ export const DeleteTodoListTasks = () => {
 }
 export const UpdateTodoListTasks = () => {
     const [state, setState] = useState<any>(null)
-    const todoListId = "577a2955-9059-4bba-afc2-14cfd5d733fd"
-    const taskId="8c328c6c-086a-4fb2-abfd-1266e6b69822"
-    const task={
-        title: "Таска1",
-        description: "тест1",
-        completed: false,
+    const todoListId = "2f96a0a7-2c09-4ed8-93a4-bda23d8bc19b"
+    const taskId="36a42faa-1d4d-485a-b713-97d8ec01a9b2"
+    const task:updateTaskType={
+        title: "Таск522222",
+        description: "тес5",
         status: 1,
         priority: 5,
-        startDate: null,
-        deadline: null,
+        startDate: "null",
+        deadline: "null",
     }
     useEffect(() => {
         todoListAPI.updateTask(todoListId,taskId,task)

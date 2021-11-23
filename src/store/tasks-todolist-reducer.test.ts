@@ -7,7 +7,13 @@ import { TaskStatuses } from "../api/todolosts-api";
 test("correct tasks should be added", () => {
     const startTaskState:TascsStateType={}
     const starnTodolistState:Array<TodoListDomainType>=[]
-    const action=addTodolostAC("newTL")
+    const todolist= {
+        id: "123123",
+        title: "new list",
+        addedDate: "dd",
+        order: 4,
+    }
+    const action=addTodolostAC(todolist)
     const endTasksState=tasksReducer(startTaskState,action)
     const endTodolistState=todoListReducer(starnTodolistState,action)
 
@@ -17,8 +23,8 @@ test("correct tasks should be added", () => {
     const idFromTodolist=endTodolistState[0].id
 
 
-    expect(idFromTasks).toBe(action.todolistId)
-    expect(idFromTodolist).toBe(action.todolistId)
+    expect(idFromTasks).toBe(action.todolist.id)
+    expect(idFromTodolist).toBe(action.todolist.id)
 
 
 });

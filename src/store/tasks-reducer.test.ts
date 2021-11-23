@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import { TaskStatuses } from "../api/todolosts-api";
+import {TaskStatuses} from "../api/todolosts-api";
 import {addTaskAC, changeStatusTaskAC, removeTaskAC, tasksReducer, updateTaskAC} from "./tasks-reducer";
 import {addTodolostAC} from "./todolists-reducer";
 
@@ -21,7 +21,20 @@ test("correct tasks should be added", () => {
 
         ]
     }
-    const newstate = tasksReducer(tasks, addTaskAC(title, todolist2))
+    const task={
+        description: "ddddd",
+        title: "ddddddd",
+
+        status: 1,
+        priority: 2,
+        startDate: null,
+        deadline: null,
+        id: "task1",
+        todoListId: todoList1,
+        order: 2,
+        addedDate: "null",
+    }
+    const newstate = tasksReducer(tasks, addTaskAC(task))
 
     expect(newstate[todolist2].length).toBe(3)
     expect(newstate[todoList1].length).toBe(4)
@@ -74,7 +87,7 @@ test("tasks should be update", () => {
 
         ]
     }
-    const newstate = tasksReducer(tasks, updateTaskAC(tasks[todoList1][1].id, newtitle, todoList1))
+    const newstate = tasksReducer(tasks, updateTaskAC(tasks[todoList1][1].id, {title:newtitle}, todoList1))
 
     expect(newstate[todoList1][1].title).toBe(newtitle)
     expect(newstate[todoList1][1].status).toBe(2)
@@ -133,7 +146,15 @@ test("new property with new array should be added when new TL is added", () => {
 
         ]
     }
-    const action = addTodolostAC("newTL")
+
+    const todolist= {
+        id: "123123",
+        title: "new list",
+        addedDate: "dd",
+        order: 4,
+    }
+
+    const action = addTodolostAC(todolist)
     const endState = tasksReducer(tasks, action)
 
     const key = Object.keys(endState)
