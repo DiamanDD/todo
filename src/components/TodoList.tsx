@@ -3,7 +3,7 @@ import {AddItemFormAddItem} from "./AddItemFormAddItemForm/AddItemFormAddItem";
 import {EditableSpan} from "./EditableSpan/EditableSpan";
 import {Button, Grid, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {selectedfilterType} from "../AppWithREDUX";
+import {selectedfilterType} from "./App/AppWithREDUX";
 import {Tasks} from "./Tasks";
 import {TasksDomainType, TaskStatuses} from "../api/todolosts-api";
 import {useDispatch} from "react-redux";

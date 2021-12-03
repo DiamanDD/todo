@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {selectedfilterType} from "../AppWithREDUX";
+import {selectedfilterType} from "../components/App/AppWithREDUX";
 import {
     addTodolostAC,
     changeTodolistFilterAC,

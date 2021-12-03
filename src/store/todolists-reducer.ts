@@ -1,4 +1,4 @@
-import {selectedfilterType} from "../AppWithREDUX";
+import {selectedfilterType} from "../components/App/AppWithREDUX";
 import {todoListAPI, TodoListsType} from "../api/todolosts-api";
 import {Dispatch} from "redux";
 

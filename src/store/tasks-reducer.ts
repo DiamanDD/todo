@@ -2,6 +2,7 @@ import {AddTodoListType, RemoveTodolistType, SET_TODO_LIST, setTodoListAT, ADD_T
 import {TasksDomainType, TaskStatuses, todoListAPI, TodoTaskPriorites, updateTaskType} from "../api/todolosts-api";
 import {Dispatch} from "redux";
 import {AppStateType} from "./root-redicer";
+import {setErrorMessageAC} from "../components/App/app-reducer";
 
 const ADD_TASK = "ADD_TASK"
 const REMOVE_TASK = "REMOVE_TASK"
@@ -70,8 +71,22 @@ export const addTaskAC = ( task:TasksDomainType) => {
 }
 export const addTaskTC = (title: string, todolistID: string) => {
     return (dispatch: Dispatch) => {
-        todoListAPI.createTask(todolistID, title).then((res) => {
-            dispatch(addTaskAC(res.data.data.item))
+        todoListAPI.createTask(todolistID, title)
+            .then((res) => {
+
+                if(res.data.resultCode==0){
+                    dispatch(addTaskAC(res.data.data.item))
+                }
+                else{
+                    if (res.data.messages){
+                        dispatch(setErrorMessageAC(res.data.messages[0]))
+                    }
+                    else{
+                        dispatch(setErrorMessageAC("Some errror"))
+                    }
+
+                }
+
         })
     }
 }

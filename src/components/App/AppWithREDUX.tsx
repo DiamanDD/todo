@@ -1,8 +1,18 @@
 import React, {useCallback, useEffect} from "react";
 import "./App.css";
-import {TodoList} from "./components/TodoList";
-import {AddItemFormAddItem} from "./components/AddItemFormAddItemForm/AddItemFormAddItem";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {TodoList} from "../TodoList";
+import {AddItemFormAddItem} from "../AddItemFormAddItemForm/AddItemFormAddItem";
+import {
+    AppBar,
+    Button,
+    Container,
+    Grid,
+    IconButton,
+    LinearProgress,
+    Paper,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
     addTodoListTC,
@@ -11,11 +21,12 @@ import {
     fetchTodolistThunk,
     removeTodoListTC,
     TodoListDomainType
-} from "./store/todolists-reducer";
-import {addTaskTC, removeTaskThunk, TascsStateType, updateTaskTC} from "./store/tasks-reducer";
-import {AppStateType} from "./store/root-redicer";
+} from "../../store/todolists-reducer";
+import {addTaskTC, removeTaskThunk, TascsStateType, updateTaskTC} from "../../store/tasks-reducer";
+import {AppStateType} from "../../store/root-redicer";
 import {useDispatch, useSelector} from "react-redux";
-import {TaskStatuses} from "./api/todolosts-api";
+import {TaskStatuses} from "../../api/todolosts-api";
+import {ErrorSnackBar} from "../ErrorSnackBar/ErroorSnackBar";
 
 
 export type selectedfilterType = "All" | "Active" | "Completed"
@@ -65,6 +76,7 @@ function App() {
 
     return (
         <div className="App">
+
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -75,7 +87,11 @@ function App() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+
+
             </AppBar>
+            <LinearProgress />
+            <ErrorSnackBar/>
             <Container fixed>
                 <Grid container style={{padding: "30px"}}>
                     <AddItemFormAddItem newTasks={addTodolist}/>
