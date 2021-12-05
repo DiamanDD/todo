@@ -2,7 +2,7 @@ import {AddTodoListType, RemoveTodolistType, SET_TODO_LIST, setTodoListAT, ADD_T
 import {TasksDomainType, TaskStatuses, todoListAPI, TodoTaskPriorites, updateTaskType} from "../api/todolosts-api";
 import {Dispatch} from "redux";
 import {AppStateType} from "./root-redicer";
-import {setErrorMessageAC} from "../components/App/app-reducer";
+import {setErrorMessageAC, setStatusMessageAC, setStatusMessageType} from "./app-reducer";
 
 const ADD_TASK = "ADD_TASK"
 const REMOVE_TASK = "REMOVE_TASK"
@@ -52,13 +52,15 @@ export const setTasksAC = (tasks: TasksDomainType[], todolistId: string) => {
     } as const
 }
 export const fetchTasksTC = (todolistId: string) => {
-    return (dispatch: Dispatch) => {
+    return (dispatch: Dispatch<tasksACtype|setStatusMessageType>) => {
 
         todoListAPI.getTasks(todolistId).then((res) => {
 
                 dispatch(setTasksAC(res.data.items, todolistId))
             }
-        )
+        ).finally(()=>{
+            dispatch(setStatusMessageAC("idle"))
+        })
     }
 
 }
@@ -71,6 +73,8 @@ export const addTaskAC = ( task:TasksDomainType) => {
 }
 export const addTaskTC = (title: string, todolistID: string) => {
     return (dispatch: Dispatch) => {
+
+        dispatch(setStatusMessageAC("loading"))
         todoListAPI.createTask(todolistID, title)
             .then((res) => {
 
@@ -87,6 +91,8 @@ export const addTaskTC = (title: string, todolistID: string) => {
 
                 }
 
+        }).finally(()=>{
+            dispatch(setStatusMessageAC("succeeded"))
         })
     }
 }

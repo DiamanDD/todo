@@ -1,6 +1,7 @@
 import {selectedfilterType} from "../components/App/AppWithREDUX";
 import {todoListAPI, TodoListsType} from "../api/todolosts-api";
 import {Dispatch} from "redux";
+import {RequestStatusType, setStatusMessageAC} from "./app-reducer";
 
 export const SET_TODO_LIST = "SET_TODO_LIST"
 export const REMOVE_TODOLIST="REMOVE_TODOLIST"
@@ -10,6 +11,7 @@ export const CHANGE_TODOLIST_FILTER="CHANGE_TODOLIST_FILTER"
 
 export type TodoListDomainType = TodoListsType & {
     filter: selectedfilterType
+    entytyStatus:RequestStatusType
 }
 export type RemoveTodolistType = {
     type: "REMOVE_TODOLIST"
@@ -25,12 +27,17 @@ type ChangeTodoListType = {
     id: string
     title: string
 }
+type changeTodoListEntytyStatusType = {
+    type: "CHANGE_ENTYTY_STATUS"
+    id: string
+    status:RequestStatusType
+}
 export type changeTodoListFilterType = {
     type: "CHANGE_TODOLIST_FILTER"
     id: string
     filter: selectedfilterType
 }
-type ActionType = RemoveTodolistType | AddTodoListType | ChangeTodoListType | changeTodoListFilterType | setTodoListAT
+type ActionType = RemoveTodolistType | AddTodoListType | ChangeTodoListType | changeTodoListFilterType | setTodoListAT |changeTodoListEntytyStatusType
 
 const InitialState: Array<TodoListDomainType> = []
 
@@ -42,6 +49,7 @@ export const setTodoListAC = (TodoList: Array<TodoListsType>):setTodoListAT => {
 }
 export const fetchTodolistThunk = () => {
     return (dispatch: Dispatch) => {
+        dispatch(setStatusMessageAC("loading"))
         todoListAPI.getTodoLists()
             .then((data) => {
                 dispatch(setTodoListAC(data.data))
@@ -84,6 +92,7 @@ export const changeTodoListTitleAC = (todolistId2: string, newTodolistTitle: str
         title: newTodolistTitle
     })
 }
+
 export const changeTodolistTC=(todolistId2: string, newTodolistTitle: string)=>{
     return (dispatch:Dispatch)=>{
        todoListAPI.updateTodoList(todolistId2,newTodolistTitle).then(()=>{
@@ -99,20 +108,27 @@ export const changeTodolistFilterAC = (todolistId2: string, newFilter: selectedf
         filter: newFilter
     }
 }
-
+export const changeTodoListEntytyStatusAC = (todolistId2: string, status:RequestStatusType):changeTodoListEntytyStatusType  => {
+    return ({
+        type: "CHANGE_ENTYTY_STATUS",
+        id: todolistId2,
+        status
+    })as const
+}
 
 
 export const todoListReducer = (state: Array<TodoListDomainType> = InitialState, action: ActionType): Array<TodoListDomainType> => {
     switch (action.type) {
         case SET_TODO_LIST: {
-            return action.TodoList.map((tl) => ({...tl, filter: "All"}))
+            return action.TodoList.map((tl) => ({...tl, filter: "All",entytyStatus:"idle"}))
         }
         case REMOVE_TODOLIST: {
             let stateCopy = [...state]
             return stateCopy.filter(dtl => dtl.id !== action.id)
         }
         case ADD_TODOLIST:
-            const newtodolist:TodoListDomainType= {...action.todolist,filter:"All"}
+
+            const newtodolist:TodoListDomainType= {...action.todolist,filter:"All",entytyStatus:"idle"}
             return [newtodolist,...state ]
         case CHANGE_TODOLIST_TITLE: {
             let stateCopy = [...state]

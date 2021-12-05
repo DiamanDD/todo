@@ -14,8 +14,8 @@ test("correct todolist should be removed", () => {
     let todolistId1 = v1();
     let todolistId2 = v1();
     const startState: Array<TodoListDomainType> = [
-        {id: todolistId1, title: "What to learn", filter: "All",order:0,addedDate:""},
-        {id: todolistId2, title: "What to buy", filter: "All",order:0,addedDate:""}
+        {id: todolistId1, title: "What to learn", filter: "All",order:0,addedDate:"",entytyStatus:"idle"},
+        {id: todolistId2, title: "What to buy", filter: "All",order:0,addedDate:"",entytyStatus:"idle"}
     ]
     const endState = todoListReducer(startState, removeTodolostAC(todolistId1))
     expect(endState.length).toBe(1);
@@ -28,8 +28,8 @@ test("correct todolist should be added", () => {
     let newTodolistTitle = "New Todolist";
 
     const startState: Array<TodoListDomainType> = [
-        {id: todolistId1, title: "What to learn", filter: "All",order:0,addedDate:""},
-        {id: todolistId2, title: "What to buy", filter: "All",order:0,addedDate:""}
+        {id: todolistId1, title: "What to learn", filter: "All",order:0,addedDate:"",entytyStatus:"idle"},
+        {id: todolistId2, title: "What to buy", filter: "All",order:0,addedDate:"",entytyStatus:"idle"}
     ]
     const todolist= {
         id: "123123",
@@ -50,8 +50,8 @@ test("correct todolist should change its name", () => {
     let newTodolistTitle = "New Todolist";
 
     const startState: Array<TodoListDomainType> = [
-        {id: todolistId1, title: "What to learn", filter: "All",order:0,addedDate:""},
-        {id: todolistId2, title: "What to buy", filter: "All",order:0,addedDate:""}
+        {id: todolistId1, title: "What to learn", filter: "All",order:0,addedDate:"",entytyStatus:"idle"},
+        {id: todolistId2, title: "What to buy", filter: "All",order:0,addedDate:"",entytyStatus:"idle"}
     ]
     const endState = todoListReducer(startState, changeTodoListTitleAC(todolistId2, newTodolistTitle));
     expect(endState[0].title).toBe("What to learn");
@@ -62,8 +62,8 @@ test("correct filter of todolist should be changed", () => {
     let todolistId2 = v1();
     let newFilter: selectedfilterType = "Completed";
     const startState: Array<TodoListDomainType> = [
-        {id: todolistId1, title: "What to learn", filter: "All",order:0,addedDate:""},
-        {id: todolistId2, title: "What to buy", filter: "All",order:0,addedDate:""}
+        {id: todolistId1, title: "What to learn", filter: "All",order:0,addedDate:"",entytyStatus:"idle"},
+        {id: todolistId2, title: "What to buy", filter: "All",order:0,addedDate:"",entytyStatus:"idle"}
     ]
     const endState = todoListReducer(startState, changeTodolistFilterAC(todolistId2, newFilter));
     expect(endState[0].filter).toBe("All");

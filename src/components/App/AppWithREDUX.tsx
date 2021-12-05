@@ -32,10 +32,15 @@ import {ErrorSnackBar} from "../ErrorSnackBar/ErroorSnackBar";
 export type selectedfilterType = "All" | "Active" | "Completed"
 
 
-function App() {
+
+function App(){
 
     useEffect(() => {
-        dispatch(fetchTodolistThunk())
+
+
+            dispatch(fetchTodolistThunk())
+
+
 
     }, [])
 
@@ -73,6 +78,8 @@ function App() {
 
     }, [dispatch])
 
+    const status=useSelector<AppStateType>(state => state.appReducer.status)
+    console.log(status)
 
     return (
         <div className="App">
@@ -90,7 +97,8 @@ function App() {
 
 
             </AppBar>
-            <LinearProgress />
+            { status==="loading" && <LinearProgress />}
+            {/*<LinearProgress />*/}
             <ErrorSnackBar/>
             <Container fixed>
                 <Grid container style={{padding: "30px"}}>
@@ -104,12 +112,13 @@ function App() {
                                 <Grid item key={tl.id}>
                                     <Paper style={{padding: "20px"}} elevation={3}>
                                         <TodoList
-                                            id={tl.id}
-                                            titles={tl.title}
+                                            todolist={tl}
+
+
                                             removeItems={removeTask}
                                             tasks={taskForTodoList}
                                             newTasks={addTask}
-                                            selectedfilter={tl.filter}
+
                                             setActiveChecked={changeStatusTask}
                                             deleteTodolist={removeTodolist}
                                             selectedParametr={changeTodolistFilter}

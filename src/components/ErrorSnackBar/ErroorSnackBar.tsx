@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../store/root-redicer";
-import {setErrorMessageAC} from "../App/app-reducer";
+import {setErrorMessageAC} from "../../store/app-reducer";
 
 
 

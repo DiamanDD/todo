@@ -11,7 +11,7 @@ type TasksProps = {
     setUpdTask: (id: string, newTitle: string, todoListId: string) => void
 }
 export const Tasks =React.memo( (props: TasksProps) => {
-    const {tasks,setUpdTask,todolistId,setActiveChecked,removeItems}=props
+    const {tasks,setUpdTask,todolistId,setActiveChecked,removeItems,}=props
     const deleteTasks = () => removeItems(tasks.id, todolistId)
     const onChangeCheked = (e: ChangeEvent<HTMLInputElement>) => {
         setActiveChecked(tasks.id, e.currentTarget.checked?TaskStatuses.Competed:TaskStatuses.New, todolistId )
@@ -36,7 +36,7 @@ export const Tasks =React.memo( (props: TasksProps) => {
                     <EditableSpan title={tasks.title} onChange={onChangeNewTask}/>
                 </Grid>
                 <Grid item xs>
-                    <IconButton aria-label="delete" onClick={deleteTasks}>
+                    <IconButton aria-label="delete" onClick={deleteTasks} >
                         <Delete/>
                     </IconButton>
                 </Grid>
