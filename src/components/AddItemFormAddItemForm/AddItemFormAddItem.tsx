@@ -3,6 +3,7 @@ import {Button, Grid, TextField} from "@material-ui/core";
 
 type AddItemFormAddItemForm = {
     newTasks: (title: string) => void
+    disabled?:boolean
 
 
 }
@@ -49,7 +50,7 @@ export const AddItemFormAddItem =React.memo( (props: AddItemFormAddItemForm) => 
                 <Grid item xs={2}>
 
                     <Button onClick={addItem} variant="contained" color="primary"
-                            style={{padding: "10px", marginLeft:"10px"}}>
+                            style={{padding: "10px", marginLeft:"10px"}} disabled={props.disabled && true}>
                         +
                     </Button>
                 </Grid>

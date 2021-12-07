@@ -31,17 +31,9 @@ import {ErrorSnackBar} from "../ErrorSnackBar/ErroorSnackBar";
 
 export type selectedfilterType = "All" | "Active" | "Completed"
 
-
-
 function App(){
-
     useEffect(() => {
-
-
             dispatch(fetchTodolistThunk())
-
-
-
     }, [])
 
     console.log("App is called")
@@ -49,6 +41,7 @@ function App(){
     const todoList = useSelector<AppStateType, Array<TodoListDomainType>>(store => store.todoListReducer)
     const tasks = useSelector<AppStateType, TascsStateType>(store => store.tasksReducer)
     const dispatch = useDispatch()
+    const status=useSelector<AppStateType>(state => state.appReducer.status)
 
     const changeTodolistFilter = useCallback((filter: selectedfilterType, todoLostId: string) => {
         dispatch(changeTodolistFilterAC(todoLostId, filter))
@@ -65,6 +58,7 @@ function App(){
         dispatch(changeTodolistTC(todoListId, newTitle))
     }, [dispatch])
     const changeStatusTask = useCallback((id: string, status: TaskStatuses, todoListId: string) => {
+
         dispatch(updateTaskTC(id, {status}, todoListId))
     }, [dispatch])
     const updateTask = useCallback((id: string, newTitle: string, todoListId: string) => {
@@ -78,8 +72,8 @@ function App(){
 
     }, [dispatch])
 
-    const status=useSelector<AppStateType>(state => state.appReducer.status)
-    console.log(status)
+
+
 
     return (
         <div className="App">
@@ -98,7 +92,6 @@ function App(){
 
             </AppBar>
             { status==="loading" && <LinearProgress />}
-            {/*<LinearProgress />*/}
             <ErrorSnackBar/>
             <Container fixed>
                 <Grid container style={{padding: "30px"}}>
@@ -113,12 +106,9 @@ function App(){
                                     <Paper style={{padding: "20px"}} elevation={3}>
                                         <TodoList
                                             todolist={tl}
-
-
                                             removeItems={removeTask}
                                             tasks={taskForTodoList}
                                             newTasks={addTask}
-
                                             setActiveChecked={changeStatusTask}
                                             deleteTodolist={removeTodolist}
                                             selectedParametr={changeTodolistFilter}
