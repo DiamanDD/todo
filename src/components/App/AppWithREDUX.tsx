@@ -1,132 +1,54 @@
-import React, {useCallback, useEffect} from "react";
+import React from "react";
 import "./App.css";
-import {TodoList} from "../TodoList";
-import {AddItemFormAddItem} from "../AddItemFormAddItemForm/AddItemFormAddItem";
-import {
-    AppBar,
-    Button,
-    Container,
-    Grid,
-    IconButton,
-    LinearProgress,
-    Paper,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
+import {AppBar, Button, IconButton, LinearProgress, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {
-    addTodoListTC,
-    changeTodolistFilterAC,
-    changeTodolistTC,
-    fetchTodolistThunk,
-    removeTodoListTC,
-    TodoListDomainType
-} from "../../store/todolists-reducer";
-import {addTaskTC, removeTaskThunk, TascsStateType, updateTaskTC} from "../../store/tasks-reducer";
 import {AppStateType} from "../../store/root-redicer";
-import {useDispatch, useSelector} from "react-redux";
-import {TaskStatuses} from "../../api/todolosts-api";
+import {useSelector} from "react-redux";
 import {ErrorSnackBar} from "../ErrorSnackBar/ErroorSnackBar";
+
+import {Login} from "../Login/Login";
+import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
+import {Todolists} from "./Todolists/Todolists";
 
 
 export type selectedfilterType = "All" | "Active" | "Completed"
 
-function App(){
-    useEffect(() => {
-            dispatch(fetchTodolistThunk())
-    }, [])
-
-    console.log("App is called")
-
-    const todoList = useSelector<AppStateType, Array<TodoListDomainType>>(store => store.todoListReducer)
-    const tasks = useSelector<AppStateType, TascsStateType>(store => store.tasksReducer)
-    const dispatch = useDispatch()
-    const status=useSelector<AppStateType>(state => state.appReducer.status)
-
-    const changeTodolistFilter = useCallback((filter: selectedfilterType, todoLostId: string) => {
-        dispatch(changeTodolistFilterAC(todoLostId, filter))
-    }, [dispatch])
-    const removeTodolist = useCallback((todolistid: string) => {
-
-        dispatch(removeTodoListTC(todolistid))
-    }, [dispatch])
-    const addTodolist = useCallback((newTodoListTitle: string) => {
-        dispatch(addTodoListTC(newTodoListTitle))
-
-    }, [dispatch])
-    const changeTodoListTitle = useCallback((newTitle: string, todoListId: string) => {
-        dispatch(changeTodolistTC(todoListId, newTitle))
-    }, [dispatch])
-    const changeStatusTask = useCallback((id: string, status: TaskStatuses, todoListId: string) => {
-
-        dispatch(updateTaskTC(id, {status}, todoListId))
-    }, [dispatch])
-    const updateTask = useCallback((id: string, newTitle: string, todoListId: string) => {
-        dispatch(updateTaskTC(id, {title: newTitle}, todoListId))
-    }, [dispatch])
-    const removeTask = useCallback((id: string, todoListId: string) => {
-        dispatch(removeTaskThunk(id, todoListId))
-    }, [dispatch])
-    const addTask = useCallback((title: string, todoListId: string) => {
-        dispatch(addTaskTC(title, todoListId))
-
-    }, [dispatch])
-
-
-
+function App() {
+    const status = useSelector<AppStateType>(state => state.appReducer.status)
 
     return (
-        <div className="App">
+        <Router>
+            <div className="App">
 
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                            <Menu/>
+                        </IconButton>
+                        <Typography variant="h6">
+                            News
+                        </Typography>
+                        <Button color="inherit">Login</Button>
+                    </Toolbar>
 
 
-            </AppBar>
-            { status==="loading" && <LinearProgress />}
-            <ErrorSnackBar/>
-            <Container fixed>
-                <Grid container style={{padding: "30px"}}>
-                    <AddItemFormAddItem newTasks={addTodolist}/>
-                </Grid>
-                <Grid container spacing={3}>
-                    {
-                        todoList.map((tl) => {
-                            let taskForTodoList = tasks[tl.id]
-                            return (
-                                <Grid item key={tl.id}>
-                                    <Paper style={{padding: "20px"}} elevation={3}>
-                                        <TodoList
-                                            todolist={tl}
-                                            removeItems={removeTask}
-                                            tasks={taskForTodoList}
-                                            newTasks={addTask}
-                                            setActiveChecked={changeStatusTask}
-                                            deleteTodolist={removeTodolist}
-                                            selectedParametr={changeTodolistFilter}
-                                            setUpdTask={updateTask}
-                                            onChangeNewTodolistprops={changeTodoListTitle}
-                                        />
-                                    </Paper>
-                                </Grid>)
-                        })}
-                </Grid>
-            </Container>
-        </div>
+                </AppBar>
+                {status === "loading" && <LinearProgress/>}
+                <ErrorSnackBar/>
+                <Routes>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route  path="/" element={ <Todolists/>}/>
+                    <Route  path="*" element={ <div>404 not found</div>}/>
+                </Routes>
+
+            </div>
+        </Router>
+
     )
 
 
 }
 
 export default App;
-
 
 
