@@ -1,23 +1,33 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./App.css";
 import {AppBar, Button, IconButton, LinearProgress, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {AppStateType} from "../../store/root-redicer";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ErrorSnackBar} from "../ErrorSnackBar/ErroorSnackBar";
-
 import {Login} from "../Login/Login";
-import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
-import {Todolists} from "./Todolists/Todolists";
-
+import {BrowserRouter, Route, Routes,} from "react-router-dom";
+import {Todolists} from "../Todolists/Todolists";
+import {authMeTC} from "../../store/app-reducer";
+import {LogOutTC} from "../Login/login-reduser";
 
 export type selectedfilterType = "All" | "Active" | "Completed"
 
 function App() {
     const status = useSelector<AppStateType>(state => state.appReducer.status)
-
+    const isInitialuzed = useSelector<AppStateType>(state => state.appReducer.isInitialized)
+    const dispatch=useDispatch()
+    useEffect(()=>{
+        dispatch(authMeTC())
+    },[])
+    if(!isInitialuzed){
+        return <div>...Loading</div>
+    }
+    const logOut=()=>{
+        dispatch(LogOutTC())
+    }
     return (
-        <Router>
+    <BrowserRouter>
             <div className="App">
 
                 <AppBar position="static">
@@ -29,9 +39,8 @@ function App() {
                             News
                         </Typography>
                         <Button color="inherit">Login</Button>
+                        <Button color="inherit" onClick={logOut}>LogOut</Button>
                     </Toolbar>
-
-
                 </AppBar>
                 {status === "loading" && <LinearProgress/>}
                 <ErrorSnackBar/>
@@ -42,13 +51,9 @@ function App() {
                 </Routes>
 
             </div>
-        </Router>
-
+    </BrowserRouter>
     )
-
-
 }
-
 export default App;
 
 

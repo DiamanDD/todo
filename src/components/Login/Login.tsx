@@ -1,17 +1,21 @@
-import {Field, Formik, useFormik} from "formik";
+import {useFormik} from "formik";
 import React from "react";
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
-import {Button} from "@mui/material";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
+import {setInitializationTC} from "./login-reduser";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../store/root-redicer";
+import {Navigate} from "react-router-dom";
 
-
+export type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+    capcha?:string
+}
 export const Login = () => {
-    type FormikErrorType = {
-        email?: string
-        password?: string
-        rememberMe?: boolean
-    }
-
-    const formik = useFormik({
+    const dispatch=useDispatch()
+    const isAuth=useSelector<AppStateType>(state =>state.loginReducer.isAuth )
+     const formik = useFormik({
         initialValues: {
             email: "",
             password: "",
@@ -25,37 +29,26 @@ export const Login = () => {
                 errors.email = 'Invalid email address';
             }
             if (!values.password){
-                errors.password="REQ"
             }
             return errors;
         },
-
         onSubmit: values => {
-            if (!values.email) {
-            }
-
-            alert(JSON.stringify(values, null, 2));
+            dispatch(setInitializationTC(values))
         },
     })
-
-
+    if(isAuth)  {
+        return <Navigate to={"/"}/>
+    }
     return (
         <div>
             <Grid container justifyContent={'center'}>
                 <Grid item justifyContent={'center'}>
                     <FormControl>
                         <FormLabel>
-                            <p>To log in get registered
-                                <a href={'https://social-network.samuraijs.com/'}
-                                   target={'_blank'}> here
-                                </a>
-                            </p>
-                            <p>or use common test account credentials:</p>
-                            <p>Email: free@samuraijs.com</p>
-                            <p>Password: free</p>
+                            <p>Hello</p>
                         </FormLabel>
 
-                        <form onSubmit={formik.handleSubmit}>
+                        <form onSubmit={formik.handleSubmit} >
                             <FormGroup>
                                 <TextField label={"Email"}
                                            name={"email"}
@@ -74,9 +67,11 @@ export const Login = () => {
                                 {formik.errors.password && <div id="feedback">{formik.errors.password}</div>}
                                 <FormControlLabel name={"rememberMe"}
                                                   control={<Checkbox/>}
-                                                  label={"Remember me"}/>
-                                <Button type={"submit"} variant={"contained"} color={"primary"}>
-
+                                                  onChange={formik.handleChange}
+                                                  label={"Remember me"}
+                                                  checked={formik.values.rememberMe}
+                                />
+                                <Button type={"submit"} variant={"contained"} color={"primary"}  >
                                     Login
                                 </Button>
                             </FormGroup>
@@ -85,8 +80,6 @@ export const Login = () => {
                     </FormControl>
                 </Grid>
             </Grid>
-
-
         </div>
     )
 }

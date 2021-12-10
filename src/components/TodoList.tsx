@@ -25,11 +25,12 @@ export type propsType = {
 export const TodoList = React.memo(({todolist, ...props}: propsType) => {
     const dispatch = useDispatch()
     console.log("TodoList is called")
-    const {newTasks, selectedParametr, deleteTodolist, onChangeNewTodolistprops,} = props
-    let taskForTodoList = props.tasks
     useEffect(() => {
         dispatch(fetchTasksTC(todolist.id))
     }, [])
+
+    const {newTasks, selectedParametr, deleteTodolist, onChangeNewTodolistprops,} = props
+    let taskForTodoList = props.tasks
     const addTask = useCallback((title: string) => {
         newTasks(title.trim(), todolist.id)
     }, [newTasks, todolist.id])
@@ -38,8 +39,6 @@ export const TodoList = React.memo(({todolist, ...props}: propsType) => {
     const onClickCompleted = () => (selectedParametr("Completed", todolist.id))
     const deletTodolist = () => deleteTodolist(todolist.id)
     const onChangeNewTodolist = useCallback((newTitle: string) => onChangeNewTodolistprops(newTitle, todolist.id), [onChangeNewTodolistprops, todolist.id])
-
-
 
     if (todolist.filter === "Active") {
         taskForTodoList = taskForTodoList.filter(s => (s.status === TaskStatuses.New))
@@ -67,17 +66,15 @@ export const TodoList = React.memo(({todolist, ...props}: propsType) => {
             </h3>
             <AddItemFormAddItem newTasks={addTask} disabled={todolist.entytyStatus === "loading"}/>
             <div>
-                {
-                    taskForTodoList.map((elem) =>
-                        <Tasks
-                            key={elem.id}
-                            tasks={elem}
-                            todolistId={todolist.id}
-                            setUpdTask={props.setUpdTask}
-                            setActiveChecked={props.setActiveChecked}
-                            removeItems={props.removeItems}/>
-                    )
-                }
+                {taskForTodoList.map((elem) =>
+                    <Tasks
+                        key={elem.id}
+                        tasks={elem}
+                        todolistId={todolist.id}
+                        setUpdTask={props.setUpdTask}
+                        setActiveChecked={props.setActiveChecked}
+                        removeItems={props.removeItems}/>
+                )}
             </div>
             <div>
                 <Button variant={todolist.filter === "All" ? "contained" : "outlined"} color="primary"

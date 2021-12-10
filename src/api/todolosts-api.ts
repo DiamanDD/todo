@@ -1,4 +1,5 @@
 import axios from "axios";
+import {FormikErrorType} from "../components/Login/Login";
 
 
 const settings = {
@@ -27,12 +28,14 @@ export type GetTaskType = {
     totalCount: number
     error: string
 }
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Competed = 2,
     Draft = 3,
 }
+
 export const enum TodoTaskPriorites {
     low = 0,
     Middle = 1,
@@ -41,29 +44,37 @@ export const enum TodoTaskPriorites {
     later = 4,
     max
 }
+
 export type TasksDomainType = {
     description: string
     title: string
     status: TaskStatuses
     priority: TodoTaskPriorites
-    startDate: string |null
-    deadline: string |null
+    startDate: string | null
+    deadline: string | null
     id: string
     todoListId: string
     order: number
     addedDate: string
 }
-export type updateTaskType={
+export type updateTaskType = {
     title: string
     description: string
     status: TaskStatuses
     priority: TodoTaskPriorites
     startDate: string | null
-    deadline: string |null
+    deadline: string | null
 }
-
-
 export const todoListAPI = {
+    autorization(value: FormikErrorType) {
+        return instance.post<ResponsType>("auth/login", value)
+    },
+    logOut() {
+        return instance.delete<ResponsType>("auth/login")
+    },
+    authMe() {
+        return instance.get<ResponsType>("auth/me")
+    },
     getTodoLists() {
         return instance.get<Array<TodoListsType>>("todo-lists")
     },
@@ -83,7 +94,7 @@ export const todoListAPI = {
         return instance.get<GetTaskType>(`todo-lists/${todoListId}/tasks`)
     },
     createTask(todoListId: string, taskTitle: string) {
-        return instance.post<ResponsType<{item:TasksDomainType}>>(`todo-lists/${todoListId}/tasks`, {title: taskTitle})
+        return instance.post<ResponsType<{ item: TasksDomainType }>>(`todo-lists/${todoListId}/tasks`, {title: taskTitle})
     },
     deleteTask(todoListId: string, taskId: string) {
         return instance.delete<ResponsType>(`todo-lists/${todoListId}/tasks/${taskId}`,)

@@ -5,8 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../store/root-redicer";
 import {setErrorMessageAC} from "../../store/app-reducer";
 
-
-
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref,
@@ -22,15 +20,10 @@ export function ErrorSnackBar() {
         if (reason === 'clickaway') {
             return;
         }
-
         dispatch(setErrorMessageAC(null))
     };
-
-    // const isOpen=error && null
     return (
-
-
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
+       <Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
                 {error}
             </Alert>

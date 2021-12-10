@@ -25,7 +25,6 @@ export const Tasks =React.memo( (props: TasksProps) => {
                 <Grid item xs>
                     <Checkbox
                         id={tasks.id}
-
                         checked={tasks.status===TaskStatuses.Competed}
                         onChange={onChangeCheked}
                         name="checkedB"

@@ -2,7 +2,6 @@ import {selectedfilterType} from "../components/App/AppWithREDUX";
 import {todoListAPI, TodoListsType} from "../api/todolosts-api";
 import {Dispatch} from "redux";
 import {RequestStatusType, setStatusMessageAC} from "./app-reducer";
-
 export const SET_TODO_LIST = "SET_TODO_LIST"
 export const REMOVE_TODOLIST = "REMOVE_TODOLIST"
 export const ADD_TODOLIST = "ADD_TODOLIST"
@@ -111,7 +110,6 @@ export const removeTodoListTC = (todolistId1: string) => {
     }
 }
 export const changeTodolistTC = (todolistId2: string, newTodolistTitle: string) => {
-
     return (dispatch: Dispatch) => {
         dispatch(setStatusMessageAC("loading"))
         todoListAPI.updateTodoList(todolistId2, newTodolistTitle).then(() => {
@@ -120,6 +118,7 @@ export const changeTodolistTC = (todolistId2: string, newTodolistTitle: string) 
         })
     }
 }
+
 
 export const todoListReducer = (state: Array<TodoListDomainType> = InitialState, action: ActionType): Array<TodoListDomainType> => {
     switch (action.type) {

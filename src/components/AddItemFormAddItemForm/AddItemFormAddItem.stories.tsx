@@ -1,7 +1,6 @@
 import {AddItemFormAddItem} from "./AddItemFormAddItem";
 import {action} from "@storybook/addon-actions";
 import {ComponentMeta, ComponentStory} from "@storybook/react";
-import {Button} from "../../stories/Button";
 import React from "react";
 
 export default {
@@ -12,10 +11,7 @@ export default {
     },
 
 } as ComponentMeta<typeof AddItemFormAddItem>
-
 const Template: ComponentStory<typeof AddItemFormAddItem> = (args) => <AddItemFormAddItem {...args} />;
-
-
 export const AddItemFormAddItemBase = Template.bind({});
 AddItemFormAddItemBase.args = {
     newTasks: action("click add")

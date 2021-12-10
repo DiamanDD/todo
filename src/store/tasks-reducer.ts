@@ -83,7 +83,6 @@ export const updateTaskAC = (id: string, updTaskModel: updTaskModelType, todolis
     } as const
 }
 export const changeStatusTaskAC = (id: string, status: TaskStatuses, todolistID: string) => {
-
     return {
         type: CHANGE_TASK,
         status: status,
@@ -93,14 +92,12 @@ export const changeStatusTaskAC = (id: string, status: TaskStatuses, todolistID:
     } as const
 }
 
-
 export const fetchTasksTC = (todolistId: string) => {
     return (dispatch: ThunkDispanch) => {
         todoListAPI.getTasks(todolistId)
             .then((res) => {
                     dispatch(setTasksAC(res.data.items, todolistId))
                     dispatch(setStatusMessageAC("idle"))
-
                 }
             ).catch((error) => {
             handleNetworkAppError(error.message, dispatch)
@@ -110,13 +107,10 @@ export const fetchTasksTC = (todolistId: string) => {
 }
 export const addTaskTC = (title: string, todolistID: string) => {
     return (dispatch: ThunkDispanch) => {
-
         dispatch(setStatusMessageAC("loading"))
         dispatch(changeTodoListEntytyStatusAC(todolistID, "loading"))
-
         todoListAPI.createTask(todolistID, title)
             .then((res) => {
-
                 if (res.data.resultCode === 0) {
                     dispatch(addTaskAC(res.data.data.item))
                 } else {
@@ -131,7 +125,7 @@ export const addTaskTC = (title: string, todolistID: string) => {
             })
     }
 }
-export const removeTaskThunk = (id: string, todolistID: string) => {
+export const selectedfilterTC = (id: string, todolistID: string) => {
     return (dispatch: Dispatch) => {
         dispatch(setStatusMessageAC("loading"))
         dispatch(changeTodoListEntytyStatusAC(todolistID, "loading"))
@@ -188,7 +182,6 @@ export const tasksReducer = (state: TascsStateType = InitialState, action: tasks
             const stateCopy = {...state}
             stateCopy[action.todolistId] = action.tasks
             return stateCopy
-
         }
         case SET_TODO_LIST: {
             const stateCopy = {...state}
