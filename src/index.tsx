@@ -3,8 +3,9 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import AppWithREDUX from "./components/App/AppWithREDUX";
-import store from "./store/root-redicer";
+
 import {Provider} from "react-redux";
+import store from "./store/root-redicer";
 
 
 ReactDOM.render(

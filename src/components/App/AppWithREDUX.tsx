@@ -9,7 +9,7 @@ import {Login} from "../Login/Login";
 import {BrowserRouter, Route, Routes,} from "react-router-dom";
 import {Todolists} from "../Todolists/Todolists";
 import {authMeTC} from "../../store/app-reducer";
-import {LogOutTC} from "../Login/login-reduser";
+import {LogOutTC} from "../../store/login-reduser";
 
 export type selectedfilterType = "All" | "Active" | "Completed"
 

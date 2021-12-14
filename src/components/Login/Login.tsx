@@ -1,7 +1,7 @@
 import {useFormik} from "formik";
 import React from "react";
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
-import {setInitializationTC} from "./login-reduser";
+import {setInitializationTC} from "../../store/login-reduser";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../store/root-redicer";
 import {Navigate} from "react-router-dom";

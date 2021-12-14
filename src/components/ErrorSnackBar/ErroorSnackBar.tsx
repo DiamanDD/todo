@@ -20,7 +20,7 @@ export function ErrorSnackBar() {
         if (reason === 'clickaway') {
             return;
         }
-        dispatch(setErrorMessageAC(null))
+        dispatch(setErrorMessageAC({error:null}))
     };
     return (
        <Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>

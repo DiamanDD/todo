@@ -18,6 +18,7 @@ import {selectedfilterType} from "../App/AppWithREDUX";
 import {Navigate} from "react-router-dom";
 
 export const Todolists = () => {
+
     const isAuth = useSelector<AppStateType>(state => state.loginReducer.isAuth)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -31,9 +32,9 @@ export const Todolists = () => {
     const todoList = useSelector<AppStateType, Array<TodoListDomainType>>(store => store.todoListReducer)
     const tasks = useSelector<AppStateType, TascsStateType>(store => store.tasksReducer)
 
-
+    debugger
     const changeTodolistFilter = useCallback((filter: selectedfilterType, todoLostId: string) => {
-        dispatch(changeTodolistFilterAC(todoLostId, filter))
+        dispatch(changeTodolistFilterAC({todolistId2:todoLostId, newFilter:filter}))
     }, [dispatch])
     const removeTodolist = useCallback((todolistid: string) => {
 

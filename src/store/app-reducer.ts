@@ -1,6 +1,8 @@
 import {Dispatch} from "redux";
 import {todoListAPI} from "../api/todolosts-api";
-import {setInitializationAC} from "../components/Login/login-reduser";
+import { setInitializationAC } from "./login-reduser";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type initialStartstate = {
@@ -8,11 +10,6 @@ export type initialStartstate = {
     error: string | null
     isInitialized: boolean
 }
-type InitialStateType = typeof initialState
-export type  setErrorMessageType = ReturnType<typeof setErrorMessageAC>
-export type  setStatusMessageType = ReturnType<typeof setStatusMessageAC>
-export type setInitializedType = ReturnType<typeof setInitializedAC>
-type AppActionType = setErrorMessageType | setStatusMessageType | setInitializedType
 
 const initialState: initialStartstate = {
     status: 'idle',
@@ -20,49 +17,40 @@ const initialState: initialStartstate = {
     isInitialized: false
 }
 
+const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers: {
+        setErrorMessageAC(state,action:PayloadAction<{error: null | string}>){
+        state.error=action.payload.error
+        },
+        setStatusMessageAC(state,action:PayloadAction<{status: RequestStatusType}>){
+            state.status=action.payload.status
+        },
+        setInitializedAC(state,action){
+            state.isInitialized=true
+        }
 
-export const setErrorMessageAC = (error: null | string) => {
-    return {
-        type: 'APP/SET-ERROR',
-        error
-    } as const
-}
-export const setStatusMessageAC = (status: RequestStatusType) => {
-    return {
-        type: 'APP/SET-STATUS',
-        status
-    } as const
-}
-export const setInitializedAC = () => {
-    return {
-        type: 'APP/SET-INITIALIZED',
-    } as const
-}
+    }
+})
+
+
+export const appReducer=slice.reducer
+export const {setErrorMessageAC}=slice.actions
+export const {setStatusMessageAC}=slice.actions
+export const {setInitializedAC}=slice.actions
+
+
 export const authMeTC = () => (dispatch: Dispatch) => {
     todoListAPI.authMe()
         .then((res) => {
             if (res.data.resultCode === 0) {
-                dispatch(setInitializationAC(true))
+                dispatch(setInitializationAC({isAuth:true}))
             }
         }).finally(() => {
-            dispatch(setInitializedAC())
+            dispatch(setInitializedAC({}))
         }
     )
 }
-
-export const appReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
-    switch (action.type) {
-        case 'APP/SET-STATUS':
-
-            return {...state, status: action.status}
-        case 'APP/SET-ERROR':
-            return {...state, error: action.error}
-        case "APP/SET-INITIALIZED":
-            return {...state, isInitialized: true}
-        default:
-            return state
-    }
-}
-
 
 
