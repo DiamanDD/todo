@@ -2,7 +2,9 @@ import React, {useCallback, useEffect} from "react";
 import {
     addTodoListTC,
     changeTodolistFilterAC,
+
     changeTodolistTC,
+
     fetchTodolistThunk,
     removeTodoListTC,
     TodoListDomainType
@@ -32,32 +34,31 @@ export const Todolists = () => {
     const todoList = useSelector<AppStateType, Array<TodoListDomainType>>(store => store.todoListReducer)
     const tasks = useSelector<AppStateType, TascsStateType>(store => store.tasksReducer)
 
-    debugger
     const changeTodolistFilter = useCallback((filter: selectedfilterType, todoLostId: string) => {
         dispatch(changeTodolistFilterAC({todolistId2:todoLostId, newFilter:filter}))
     }, [dispatch])
     const removeTodolist = useCallback((todolistid: string) => {
 
-        dispatch(removeTodoListTC(todolistid))
+        dispatch(removeTodoListTC({"todolistId1":todolistid}))
     }, [dispatch])
     const addTodolist = useCallback((newTodoListTitle: string) => {
-        dispatch(addTodoListTC(newTodoListTitle))
+        dispatch(addTodoListTC({"newTitle":newTodoListTitle}))
 
     }, [dispatch])
     const changeTodoListTitle = useCallback((newTitle: string, todoListId: string) => {
-        dispatch(changeTodolistTC(todoListId, newTitle))
+        dispatch(changeTodolistTC({"todolistId2":todoListId, "newTodolistTitle":newTitle}))
     }, [dispatch])
     const changeStatusTask = useCallback((id: string, status: TaskStatuses, todoListId: string) => {
-        dispatch(updateTaskTC(id, {status}, todoListId))
+        dispatch(updateTaskTC({"todolistID": todoListId,"id":id, "updTaskModel":{status}}))
     }, [dispatch])
     const updateTask = useCallback((id: string, newTitle: string, todoListId: string) => {
-        dispatch(updateTaskTC(id, {title: newTitle}, todoListId))
+        dispatch(updateTaskTC({"id":id,"todolistID":todoListId,"updTaskModel":{title: newTitle}}))
     }, [dispatch])
     const removeTask = useCallback((id: string, todoListId: string) => {
-        dispatch(selectedfilterTC(id, todoListId))
+        dispatch(selectedfilterTC({"id":id,"todolistID":todoListId}))
     }, [dispatch])
     const addTask = useCallback((title: string, todoListId: string) => {
-        dispatch(addTaskTC(title, todoListId))
+        dispatch(addTaskTC({"title":title,"todolistID": todoListId}))
     }, [dispatch])
     if (!isAuth) {
         return <Navigate to={"/login"}/>

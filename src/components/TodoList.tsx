@@ -26,7 +26,7 @@ export const TodoList = React.memo(({todolist, ...props}: propsType) => {
     const dispatch = useDispatch()
     console.log("TodoList is called")
     useEffect(() => {
-        dispatch(fetchTasksTC(todolist.id))
+        dispatch(fetchTasksTC({"todolistId":todolist.id}))
     }, [])
 
     const {newTasks, selectedParametr, deleteTodolist, onChangeNewTodolistprops,} = props
